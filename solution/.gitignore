@@ -1,0 +1,7 @@
+carMaintenance/Lib/
+carMaintenance/Scripts/
+carMaintenance/Include/
+carMaintenance/pyvenv.cfg
+
+carMaintenance/djangoBackend/db.sqlite3
+carMaintenance/djangoBackend/djangoBackend/__pycache__/

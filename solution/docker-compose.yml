@@ -4,11 +4,11 @@ services:
   web:
     build:
       context: ./carMaintenance
-    volumes: 
-      - static_data:/vol/web
-    expose: 
+    volumes:
+      - static_data:/djangoBackend/vol/web
+    expose:
      - 8000
-    depends_on: 
+    depends_on:
       - database
   
   nginx:
@@ -18,7 +18,7 @@ services:
       - static_data:/vol/static
     ports:
       - "8080:8080"
-    depends_on: 
+    depends_on:
       - web
 
   database:
@@ -28,6 +28,6 @@ services:
     env_file:
       - database_variables.env
       
-volumes: 
+volumes:
   static_data:
   postgres_data:

@@ -27,8 +27,11 @@ RUN mkdir -p /vol/web/static
 RUN adduser user
 RUN chown -R user:user /vol
 RUN chmod -R 755 /vol/web
+RUN chmod 777 -R /djangoBackend
+
 USER user
 
 CMD python manage.py makemigrations && \
+python manage.py collectstatic --no-input && \
 python manage.py migrate && \
 gunicorn djangoBackend.wsgi:application --bind 0.0.0.0:8000

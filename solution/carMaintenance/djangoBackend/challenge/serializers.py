@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Car
+from .models import Car, Tyre
 
 class CarSerializer(serializers.ModelSerializer):
   class Meta:
@@ -9,3 +9,8 @@ class CarSerializer(serializers.ModelSerializer):
       'totalGas',
       'currentGas',
     ]
+
+class TyreSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Tyre
+    fields = '__all__'

@@ -5,3 +5,6 @@ carMaintenance/pyvenv.cfg
 
 carMaintenance/djangoBackend/db.sqlite3
 carMaintenance/djangoBackend/djangoBackend/__pycache__/
+
+carMaintenance/djangoBackend/challenge/__pycache__/
+carMaintenance/djangoBackend/challenge/migrations/

@@ -9,16 +9,8 @@ class Car (models.Model):
   def __str__(self):
     return '{} - {} - {}'.format(self.id, self.totalGas, self.currentGas)
 
-@receiver(pre_save, sender=Car)
-def checkRequirements(sender, instance, update_fields, *args, **kwargs):
-  if not instance._state.adding:
-    currentGasPercentage = Car.objects.get(pk=instance.id).currentGas/Car.objects.get(pk=instance.id).totalGas
-    if (currentGasPercentage>0.05):
-      raise Exception('Current Gas above 5%.')
-  return
-
 class Tyre (models.Model):
-  car = models.ForeignKey(Car, related_name='tyres', on_delete=models.CASCADE, blank=False, null=False)
+  car = models.ForeignKey(Car, related_name = 'tyres', on_delete = models.CASCADE, blank = False, null = False)
   degradation = models.FloatField(default = 0, blank = False, null = False)
 
   def __str__(self):

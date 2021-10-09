@@ -1,43 +1,34 @@
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
 from .serializers import CarSerializer, TyreSerializer
-
 from .models import Car, Tyre
 
-class CarView(APIView):
-  permission_classes = [AllowAny]
+class CarEventsViewset(viewsets.ViewSet):
+  
+  def list(self, request):
+    return Response({}, status=status.HTTP_501_NOT_IMPLEMENTED)
 
-  def post(self, request):
+  def retrieve(self, request, pk=None):
+    queryset = Car.objects.all()
+    car = get_object_or_404(queryset, pk=pk)
+    serializer = CarSerializer(car)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+  def create(self, request):
+    newCar = Car.objects.create()
+    serializer = CarSerializer(newCar)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+  @action(detail=True, methods=['post'])
+  def tyres(self, request, pk=None):
     try:
-      newCar = Car.objects.create()
-      newCar = CarSerializer(newCar)
-      return Response({'created': newCar.data}, status=status.HTTP_201_CREATED)
+      newTyre = Tyre.objects.create(car_id=pk)
+      serializer = TyreSerializer(newTyre)
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
     except Exception as e:
-      return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+      return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-  def get(self, request):
-    selectedCarId = self.request.GET.get('carId','')
-    try:
-      car = Car.objects.get(pk=selectedCarId)
-      car = CarSerializer(car)
-      return Response({'selected': car.data}, status=status.HTTP_200_OK)
-    except Exception as e:
-      return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-Car_View = CarView.as_view()
-
-class TyreView(APIView):
-  permission_classes = [AllowAny]
-
-  def post(self, request):
-    selectedCarId = self.request.GET.get('carId','')
-    try:
-      newTyre = Tyre.objects.create(car_id=selectedCarId)
-      newTyre = TyreSerializer(newTyre)
-      return Response({'created': newTyre.data}, status=status.HTTP_201_CREATED)
-    except Exception as e:
-      return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-Tyre_View = TyreView.as_view()

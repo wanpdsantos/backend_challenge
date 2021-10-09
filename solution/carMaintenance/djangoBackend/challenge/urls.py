@@ -1,7 +1,10 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from . import views
 
+router = DefaultRouter()
+router.register(r'cars', views.CarEventsViewset, basename='car')
+
 urlpatterns = [
-  path('car', views.Car_View, name='Car'), 
-  path('tyre', views.Tyre_View, name='Tyre'), 
+  path('api/', include(router.urls))
 ]

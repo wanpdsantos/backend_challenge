@@ -70,6 +70,32 @@ class CarEventsViewset(viewsets.ViewSet):
     except Exception as e:
       return Response({'error': str(e)}, status = status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+  @action(methods=['patch'], detail=False, url_path='tyres/(?P<tyre_id>\d+)', url_name='favorite-posts')
+  @action(detail = True, methods = ['patch'])
+  def maintenance(self, request, pk = None, *args, **kwargs):
+    try:
+      gasConsumption = 8
+      queryset = Car.objects.all()
+      car = get_object_or_404(queryset, pk=pk)
+
+      car.currentGas = car.currentGas - float(request.data['distance'])/gasConsumption
+      checkEnoughtFuelToTravel(car)
+
+      tyres = Tyre.objects.filter(car_id=pk)
+      checkAllTyresPlaced(tyres)
+
+      for tyre in tyres:
+        tyre.degradation = round(tyre.degradation + float(request.data['distance'])/3, 2)
+        if(tyre.degradation>=100):
+          raise Exception('Tyre too degradated to travel.')
+
+      Tyre.objects.bulk_update(tyres, ['degradation'])
+      car.save(update_fields = ['currentGas'])
+      serializer = CarSerializer(car)
+      return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
+    except Exception as e:
+      return Response({'error': str(e)}, status = status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 

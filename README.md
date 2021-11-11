@@ -61,4 +61,3 @@ Create a Rest API that controls a car maintenance status, and the trips it perfo
 
 # Recommendations
 - SOLID / DRY
-- Code and Commits in english (methods, classes, variables, etc)

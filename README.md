@@ -1,5 +1,5 @@
 # About
-Rest API developed with Django and Docker containers.
+Rest API developed with Django/Postgres/Nginx and Docker containers.
 
 # Instructions
 Make sure to have docker installed on your machine.

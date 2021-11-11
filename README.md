@@ -8,6 +8,8 @@ Make sure to have docker installed on your machine.
 2. Navigate to the solutions folder and run docker compose up.
 3. The API will be available locally at 127.0.0.1:8080
 
+Environment variables were also commited to make easier to clone and run.
+
 Postman collection is also avaliable in repo so you can import the file to your postman and perform API requests.
 
 # Backend Developer Challenge
